@@ -2,6 +2,7 @@ import { MailOutline } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { JournalLayout } from "../layout/JournalLayout";
 import { NothingSelectedView } from "../views/NothingSelectedView";
+import { NoteView } from "../views";
 
 export const JournalPage = () => {
   return (
@@ -17,7 +18,8 @@ export const JournalPage = () => {
         Fue popularizado en los 60s con la creación de las hojas "Letraset", la
       </Typography> */}
 
-      <NothingSelectedView />
+      {/* <NothingSelectedView /> */}
+      <NoteView />
     </JournalLayout>
   );
 };
