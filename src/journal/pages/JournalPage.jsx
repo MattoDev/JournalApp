@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import { JournalLayout } from "../layout/JournalLayout";
 import { NothingSelectedView } from "../views/NothingSelectedView";
 import { NoteView } from "../views";
+import { ImageGallery } from "../components";
 
 export const JournalPage = () => {
   return (
@@ -20,6 +21,7 @@ export const JournalPage = () => {
 
       {/* <NothingSelectedView /> */}
       <NoteView />
+      <ImageGallery />
     </JournalLayout>
   );
 };
