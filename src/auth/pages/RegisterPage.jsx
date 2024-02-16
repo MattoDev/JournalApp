@@ -10,12 +10,30 @@ const formData = {
   displayName: "Mateo Fonseca",
 };
 
+const formValidations = {
+  email: [(value) => value.includes("@"), "El correo debe de tener una @"],
+  password: [
+    (value) => value.length >= 6,
+    "El password debe tener mas de 6 letras",
+  ],
+  displayName: [(value) => value.length >= 3, "El Nombre es obligatorio"],
+};
+
 export const RegisterPage = () => {
   //Nota sx Style extended nos da acceso al theme que nosotros definimos en nuestro themeProvider
   // vh es view hight osea todo el tamaño que tengo disponible
 
-  const { email, password, onInputChange, formState, displayName } =
-    useForm(formData);
+  const {
+    email,
+    password,
+    onInputChange,
+    formState,
+    displayName,
+    isFormValid,
+    displayNameValid,
+    emailValid,
+    passwordValid,
+  } = useForm(formData, formValidations);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -35,6 +53,8 @@ export const RegisterPage = () => {
               name="displayName"
               value={displayName}
               onChange={onInputChange}
+              error={!displayNameValid}
+              helperText={displayNameValid}
             ></TextField>
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
