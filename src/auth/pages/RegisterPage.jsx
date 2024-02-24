@@ -4,11 +4,13 @@ import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { startCreatingUserWithEmailPassword } from "../../store/auth";
 
 const formData = {
-  email: "mateo@google.com",
-  password: "123456",
-  displayName: "Mateo Fonseca",
+  email: "",
+  password: "",
+  displayName: "",
 };
 
 const formValidations = {
@@ -21,6 +23,7 @@ const formValidations = {
 };
 
 export const RegisterPage = () => {
+  const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   //Nota sx Style extended nos da acceso al theme que nosotros definimos en nuestro themeProvider
@@ -43,7 +46,9 @@ export const RegisterPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    console.log(formState);
+    if (!isFormValid) return;
+
+    dispatch(startCreatingUserWithEmailPassword(formState));
   };
   return (
     //Aqui cambiamos el bacground color
