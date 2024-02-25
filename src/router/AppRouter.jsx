@@ -7,6 +7,7 @@ import { useCheckAuth } from "../hooks";
 
 export const AppRouter = () => {
   const { status } = useCheckAuth();
+
   if (status === "checking") {
     return <CheckingAuth />;
   }
