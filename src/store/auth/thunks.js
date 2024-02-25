@@ -2,6 +2,7 @@
 //internamente tienen un tarea asincrona, si se necesita que sean sincronas pueden hacerlo directamente en los reducers
 
 import {
+  loginWithEmailPassword,
   registerUserWithEmailPassword,
   singInWithGoogle,
 } from "../../firebase/providers";
@@ -43,5 +44,16 @@ export const startCreatingUserWithEmailPassword = ({
     if (!ok) return dispatch(logout({ errorMessage }));
 
     dispatch(login({ uid, displayName, email, photoURL }));
+  };
+};
+
+export const startLoginWithEmailPasword = ({ email, password }) => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials());
+
+    const result = await loginWithEmailPassword({ email, password });
+    if (!result.ok) return dispatch(logout(result));
+
+    dispatch(login(result));
   };
 };
