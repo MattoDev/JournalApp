@@ -12,7 +12,7 @@ export const CheckingAuth = () => {
     >
       {/* Esta parte es para poner la caja en medio */}
       {/* xs tamaño de las pantallas investigar */}
-      <Grid item direction="row" justifyContent="center">
+      <Grid container direction="row" justifyContent="center">
         <CircularProgress color="warning" />
       </Grid>
     </Grid>
