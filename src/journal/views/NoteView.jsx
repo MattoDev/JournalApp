@@ -1,5 +1,6 @@
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
+import { ImageGallery } from "../components";
 
 //Un Box es como un Div, Investigar un poco
 //Un Grid me permite definir elementos internamente
@@ -47,7 +48,7 @@ export const NoteView = () => {
         />
       </Grid>
 
-      {/* Image Galelry */}
+      <ImageGallery />
     </Grid>
   );
 };
