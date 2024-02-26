@@ -20,6 +20,11 @@ import { AuthLayout } from "../layout/AuthLayout";
 
 import { useForm } from "../../hooks";
 
+const formData = {
+  email: "",
+  password: "",
+};
+
 export const LoginPage = () => {
   //Nota sx Style extended nos da acceso al theme que nosotros definimos en nuestro themeProvider
   // vh es view hight osea todo el tamaño que tengo disponible
@@ -28,10 +33,7 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const { email, password, onInputChange, formState } = useForm({
-    email: "",
-    password: "",
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 

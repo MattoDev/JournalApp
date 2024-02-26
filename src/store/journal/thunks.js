@@ -1,10 +1,22 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import {
+  addNewEmptyNote,
+  noteUpdated,
+  savingNewNote,
+  setActiveNote,
+  setNotes,
+  setSaving,
+} from "./";
+import { loadNotes } from "../../helpers";
 
 // La nomencaltura start me quiere decir cuando inicia el proceso
 export const startNewNote = () => {
   //get state es el segundo argumento dentro del thunk el cual es una funcion
   return async (dispatch, getState) => {
+    //Todo: tarea dispatch
+    dispatch(savingNewNote());
+
     const { uid } = getState().auth;
     console.log("startNewNote");
     //uid
@@ -18,11 +30,44 @@ export const startNewNote = () => {
     //Crear la referencia del documento donde voy a insertar
     const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`));
 
-    const setDocResp = await setDoc(newDoc, newNote);
-    console.log({ newDoc, setDoc });
+    await setDoc(newDoc, newNote);
+
+    // Esto creando la propiedad id a esa nota
+    newNote.id = newDoc.id;
+
+    dispatch(addNewEmptyNote(newNote));
+    dispatch(setActiveNote(newNote));
 
     //dispatch
     //dispatch(newNote)
     //dispatch(activateNote)
+  };
+};
+
+export const startLoadingNotes = () => {
+  return async (dispatch, getState) => {
+    const { uid } = getState().auth;
+    if (!uid) throw new Error("El UID del usuario no existe");
+
+    const getNotes = await loadNotes(uid);
+
+    dispatch(setNotes(getNotes));
+  };
+};
+
+export const startSaveNote = () => {
+  return async (dispatch, getState) => {
+    dispatch(setSaving());
+
+    const { uid } = getState().auth;
+    const { active: note } = getState().journal;
+
+    const noteToFireStore = { ...note };
+    delete noteToFireStore.id;
+
+    const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
+
+    await setDoc(docRef, noteToFireStore, { merge: true });
+    dispatch(noteUpdated(note));
   };
 };
