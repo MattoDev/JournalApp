@@ -29,8 +29,25 @@ export const journalSlice = createSlice({
     setNotes: (state, action) => {
       state.notes = action.payload;
     },
-    setSaving: (state) => {},
-    updateNote: (state, asction) => {},
+    setSaving: (state) => {
+      state.isSaving = true;
+      //TODO: mensaje de error...
+    },
+    noteUpdated: (state, action) => {
+      // Suponiendo que action.payload es un objeto con la estructura { id: '...', ... }
+      state.isSaving = false;
+      state.notes = state.notes.map((note) => {
+        if (note.id === action.payload.id) {
+          return action.payload;
+          // return {
+          //   ...note,
+          //   ...action.payload,
+          // };
+        }
+        return note;
+      });
+    },
+
     deleteNoteById: (state, action) => {},
   },
 });
@@ -42,6 +59,6 @@ export const {
   setActiveNote,
   setNotes,
   setSaving,
-  updateNote,
+  noteUpdated,
   deleteNoteById,
 } = journalSlice.actions;

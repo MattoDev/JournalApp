@@ -1,6 +1,13 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
-import { addNewEmptyNote, savingNewNote, setActiveNote, setNotes } from "./";
+import {
+  addNewEmptyNote,
+  noteUpdated,
+  savingNewNote,
+  setActiveNote,
+  setNotes,
+  setSaving,
+} from "./";
 import { loadNotes } from "../../helpers";
 
 // La nomencaltura start me quiere decir cuando inicia el proceso
@@ -45,5 +52,22 @@ export const startLoadingNotes = () => {
     const getNotes = await loadNotes(uid);
 
     dispatch(setNotes(getNotes));
+  };
+};
+
+export const startSaveNote = () => {
+  return async (dispatch, getState) => {
+    dispatch(setSaving());
+
+    const { uid } = getState().auth;
+    const { active: note } = getState().journal;
+
+    const noteToFireStore = { ...note };
+    delete noteToFireStore.id;
+
+    const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
+
+    await setDoc(docRef, noteToFireStore, { merge: true });
+    dispatch(noteUpdated(note));
   };
 };
