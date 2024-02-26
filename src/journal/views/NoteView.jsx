@@ -1,10 +1,23 @@
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { ImageGallery } from "../components";
+import { useForm } from "../../hooks/useForm";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
 
 //Un Box es como un Div, Investigar un poco
 //Un Grid me permite definir elementos internamente
 export const NoteView = () => {
+  const { active: activeNote } = useSelector((state) => state.journal);
+
+  const { body, title, date, onInputChange, formState } = useForm(activeNote);
+
+  const dateString = useMemo(() => {
+    const newDate = new Date(date);
+
+    return newDate.toUTCString();
+  }, [date]);
+
   return (
     <Grid
       className="animate__animated animate__fadeIn animate__faster"
@@ -16,7 +29,7 @@ export const NoteView = () => {
     >
       <Grid item>
         <Typography fontSize={39} fontWeight="light">
-          16 de Enero, 2024
+          {dateString}
         </Typography>
       </Grid>
 
@@ -35,6 +48,9 @@ export const NoteView = () => {
           placeholder="Ingrese un tittulo"
           label="Titulo"
           sx={{ border: "none", mb: 1 }}
+          name="title"
+          value={title}
+          onChange={onInputChange}
         />
       </Grid>
       <Grid container>
@@ -45,6 +61,9 @@ export const NoteView = () => {
           multiline
           placeholder="¿Que sucedio el en dia de hoy?"
           minRows={5}
+          name="body"
+          value={body}
+          onChange={onInputChange}
         />
       </Grid>
 
