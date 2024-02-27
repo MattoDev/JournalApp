@@ -1,3 +1,4 @@
+import { SatelliteAlt } from "@mui/icons-material";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const journalSlice = createSlice({
@@ -25,12 +26,14 @@ export const journalSlice = createSlice({
     },
     setActiveNote: (state, action) => {
       state.active = action.payload;
+      state.savedMessage = "";
     },
     setNotes: (state, action) => {
       state.notes = action.payload;
     },
     setSaving: (state) => {
       state.isSaving = true;
+      state.savedMessage = "";
       //TODO: mensaje de error...
     },
     noteUpdated: (state, action) => {
@@ -46,6 +49,8 @@ export const journalSlice = createSlice({
         }
         return note;
       });
+
+      state.savedMessage = `${action.payload.title}, Actualizada correctamente`;
     },
 
     deleteNoteById: (state, action) => {},
