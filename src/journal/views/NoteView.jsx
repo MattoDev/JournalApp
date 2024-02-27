@@ -1,9 +1,13 @@
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
-import { ImageGallery } from "../components";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 import { useForm } from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { ImageGallery } from "../components";
 import { setActiveNote, startSaveNote } from "../../store/journal";
 
 //Un Box es como un Div, Investigar un poco
@@ -11,7 +15,11 @@ import { setActiveNote, startSaveNote } from "../../store/journal";
 export const NoteView = () => {
   const dispatch = useDispatch();
 
-  const { active: activeNote } = useSelector((state) => state.journal);
+  const {
+    active: activeNote,
+    savedMessage,
+    isSaving,
+  } = useSelector((state) => state.journal);
 
   const { body, title, date, onInputChange, formState } = useForm(activeNote);
 
@@ -24,6 +32,12 @@ export const NoteView = () => {
   useEffect(() => {
     dispatch(setActiveNote(formState));
   }, [formState]);
+
+  useEffect(() => {
+    if (savedMessage.length > 0) {
+      Swal.fire("Nota actualizada", savedMessage, "success");
+    }
+  }, [savedMessage]);
 
   const onSaveNote = () => {
     dispatch(startSaveNote());
@@ -45,7 +59,12 @@ export const NoteView = () => {
       </Grid>
 
       <Grid item>
-        <Button onClick={onSaveNote} color="primary" sx={{ padding: 2 }}>
+        <Button
+          disabled={isSaving}
+          onClick={onSaveNote}
+          color="primary"
+          sx={{ padding: 2 }}
+        >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar
         </Button>
