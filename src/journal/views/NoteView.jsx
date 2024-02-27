@@ -8,7 +8,11 @@ import "sweetalert2/dist/sweetalert2.css";
 
 import { useForm } from "../../hooks/useForm";
 import { ImageGallery } from "../components";
-import { setActiveNote, startSaveNote } from "../../store/journal";
+import {
+  setActiveNote,
+  startSaveNote,
+  startUploadingFiles,
+} from "../../store/journal";
 
 //Un Box es como un Div, Investigar un poco
 //Un Grid me permite definir elementos internamente
@@ -49,8 +53,7 @@ export const NoteView = () => {
     // console.log(target.files);
     if (target.files === 0) return;
 
-    console.log("subiendo archivos");
-    // dispatch(startUploadingFiles(target.files));
+    dispatch(startUploadingFiles(target.files));
   };
 
   return (

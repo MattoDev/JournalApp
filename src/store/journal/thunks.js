@@ -8,7 +8,7 @@ import {
   setNotes,
   setSaving,
 } from "./";
-import { loadNotes } from "../../helpers";
+import { fileUpload, loadNotes } from "../../helpers";
 
 // La nomencaltura start me quiere decir cuando inicia el proceso
 export const startNewNote = () => {
@@ -69,5 +69,13 @@ export const startSaveNote = () => {
 
     await setDoc(docRef, noteToFireStore, { merge: true });
     dispatch(noteUpdated(note));
+  };
+};
+
+export const startUploadingFiles = (files = []) => {
+  return async (dispatch) => {
+    dispatch(setSaving());
+
+    await fileUpload(files[0]);
   };
 };
