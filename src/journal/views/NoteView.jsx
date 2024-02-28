@@ -126,7 +126,7 @@ export const NoteView = () => {
         />
       </Grid>
 
-      <ImageGallery />
+      <ImageGallery images={activeNote.imageUrls} />
     </Grid>
   );
 };
