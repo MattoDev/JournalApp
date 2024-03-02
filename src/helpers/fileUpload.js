@@ -1,5 +1,6 @@
 export const fileUpload = async (file) => {
-  if (!file) throw Error("No tenemos nongun archivo a subir");
+  // if (!file) throw Error("No tenemos nongun archivo a subir");
+  if (!file) return null;
 
   const cloudUrl = "https://api.cloudinary.com/v1_1/dovwehtgg/upload";
 
@@ -13,13 +14,14 @@ export const fileUpload = async (file) => {
       method: "POST",
       body: formData,
     });
-    console.log(resp);
+    // console.log(resp);
     if (!resp.ok) throw new Error("No se puedo subir imagen");
     const cloudResp = await resp.json();
 
     return cloudResp.secure_url;
   } catch (error) {
-    console.log(error);
-    throw new Error(error.message);
+    // console.log(error);
+    // throw new Error(error.message);
+    return null;
   }
 };
