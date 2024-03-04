@@ -1,13 +1,17 @@
 const { MemoryRouter } = require("react-router-dom");
-const { render, screen } = require("@testing-library/react");
+const { render, screen, fireEvent } = require("@testing-library/react");
 const { Provider } = require("react-redux");
 const { configureStore } = require("@reduxjs/toolkit");
 const { LoginPage } = require("../../../src/auth/pages/LoginPage");
 const { authSlice } = require("../../../src/store/auth");
+const { notAuthenticatedState } = require("../../fixtures/authFixtures");
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+  },
+  preloadedState: {
+    auth: notAuthenticatedState,
   },
 });
 
@@ -24,5 +28,18 @@ describe("Pruebas en el <LoginPage/>", () => {
     // screen.debug();
 
     expect(screen.getAllByText("Login").length).toBeGreaterThanOrEqual(1);
+  });
+
+  test("Boton de google que debe llamar el startGoogleSDignIn", () => {
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <LoginPage />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    const googleBtn = screen.getByLabelText("google-btn");
+    fireEvent.click(googleBtn);
   });
 });
