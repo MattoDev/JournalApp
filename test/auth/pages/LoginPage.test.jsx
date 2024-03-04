@@ -8,9 +8,18 @@ const { startGoogleSignIn } = require("../../../src/store/auth/thunks");
 const { notAuthenticatedState } = require("../../fixtures/authFixtures");
 
 const mockStartGoogleSignIn = jest.fn();
+const mockStartLoginwithEmailPassword = jest.fn();
 
 jest.mock("../../../src/store/auth/thunks", () => ({
   startGoogleSignIn: () => mockStartGoogleSignIn,
+  startLoginWithEmailPasword: ({ email, password }) => {
+    return () => mockStartLoginwithEmailPassword({ email, password });
+  },
+}));
+
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => (fn) => fn(),
 }));
 
 const store = configureStore({
@@ -23,6 +32,7 @@ const store = configureStore({
 });
 
 describe("Pruebas en el <LoginPage/>", () => {
+  beforeEach(() => jest.clearAllMocks());
   test("Debe mostrar el componente correctamente", () => {
     render(
       <Provider store={store}>
@@ -71,9 +81,12 @@ describe("Pruebas en el <LoginPage/>", () => {
       target: { name: "password", value: password },
     });
 
-    const loginForm = screen.getAllByLabelText("submit-form");
+    const loginForm = screen.getByLabelText("submit-form");
     fireEvent.submit(loginForm);
 
-    
+    expect(mockStartLoginwithEmailPassword).toHaveBeenCalledWith({
+      email,
+      password,
+    });
   });
 });
