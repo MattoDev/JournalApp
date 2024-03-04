@@ -20,7 +20,7 @@ export const startNewNote = () => {
     dispatch(savingNewNote());
 
     const { uid } = getState().auth;
-    console.log("startNewNote");
+
     //uid
 
     const newNote = {
