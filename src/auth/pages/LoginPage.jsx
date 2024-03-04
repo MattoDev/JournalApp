@@ -51,6 +51,7 @@ export const LoginPage = () => {
     //Aqui cambiamos el bacground color
     <AuthLayout title="Login">
       <form
+        aria-label="submit-form"
         onSubmit={onSubmit}
         className="animate__animated animate__fadeIn animate__faster"
       >
@@ -73,6 +74,9 @@ export const LoginPage = () => {
               placeholder="Contraseña"
               fullWidth
               name="password"
+              inputProps={{
+                "data-testid": "password",
+              }}
               value={password}
               onChange={onInputChange}
             ></TextField>
@@ -101,6 +105,7 @@ export const LoginPage = () => {
                 variant="contained"
                 fullWidth
                 onClick={onGoogleSignIn}
+                aria-label="google-btn"
               >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>
