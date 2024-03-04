@@ -8,30 +8,27 @@ import { getEnvironments } from "../helpers";
 
 // Your web app's Firebase configuration
 
-const env = getEnvironments();
+const {
+  VITE_APIKEY,
+  VITE_AUTHDOMAIN,
+  VITE_PROJECTID,
+  VITE_STORAGEBUCKET,
+  VITE_MESSAGINGSENDERID,
+  VITE_APPID,
+  VITE_MEASUREMENTID,
+} = getEnvironments();
 
-console.log(env);
-
-//Dev/Prod
-/* const firebaseConfig = {
-  apiKey: "AIzaSyCiRY2wFwsM70dIBEuzIHpyknOGHnEBiD4",
-  authDomain: "react-cursos-e60b6.firebaseapp.com",
-  projectId: "react-cursos-e60b6",
-  storageBucket: "react-cursos-e60b6.appspot.com",
-  messagingSenderId: "431906507161",
-  appId: "1:431906507161:web:608a8cbc38dbfa423feb08",
-}; */
-
-//Testing
 const firebaseConfig = {
-  apiKey: "AIzaSyCh3135PiAIZJPD9Yh93Wg7e0s_bDHmMp8",
-  authDomain: "react-cursos-test-78377.firebaseapp.com",
-  projectId: "react-cursos-test-78377",
-  storageBucket: "react-cursos-test-78377.appspot.com",
-  messagingSenderId: "417691422012",
-  appId: "1:417691422012:web:fb399bf59f71125a00a239",
-  measurementId: "G-JNTB2EVJZ7",
+  apiKey: VITE_APIKEY,
+  authDomain: VITE_AUTHDOMAIN,
+  projectId: VITE_PROJECTID,
+  storageBucket: VITE_STORAGEBUCKET,
+  messagingSenderId: VITE_MESSAGINGSENDERID,
+  appId: VITE_APPID,
+  measurementId: VITE_MEASUREMENTID,
 };
+
+console.log(firebaseConfig);
 
 // Initialize Firebase
 export const FirebaseApp = initializeApp(firebaseConfig);
